@@ -37,7 +37,9 @@ const Posts = ({ feedType, username, setTotalPosts, userId }) => {
           throw new Error(data.error || "Something went wrong");
         }
 
-        setTotalPosts(data?.length || 0)
+        if(feedType === "posts") {
+          setTotalPosts(data?.length || 0)
+        }
 
         return data;
       } catch (error) {
