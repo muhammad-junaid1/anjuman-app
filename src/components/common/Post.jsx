@@ -196,24 +196,28 @@ const Post = ({ post }) => {
                     {post.comments.map((comment) => (
                       <div key={comment._id} className="flex gap-2 items-start">
                         <div className="avatar">
-                          <div className="w-8 h-8 rounded-full">
-                            <img
-                              src={
-                                comment.user.profilePicture ||
-                                "/avatar-placeholder.png"
-                              }
-                            />
-                          </div>
+                            <div className="w-8 h-8 rounded-full">
+                          <Link to={`/profile/${comment.user.username}`}>
+                              <img
+                                src={
+                                  comment.user.profilePicture ||
+                                  "/avatar-placeholder.png"
+                                }
+                              />
+                          </Link>
+                            </div>
                         </div>
                         <div className="flex flex-col">
-                          <div className="flex items-center gap-1">
-                            <span className="font-bold">
-                              {comment.user.fullName}
-                            </span>
-                            <span className="text-gray-700 text-sm">
-                              @{comment.user.username}
-                            </span>
-                          </div>
+                          <Link to={`/profile/${comment.user.username}`}>
+                            <div className="flex items-center gap-1">
+                              <span className="font-bold">
+                                {comment.user.fullName}
+                              </span>
+                              <span className="text-gray-700 text-sm">
+                                @{comment.user.username}
+                              </span>
+                            </div>
+                          </Link>
                           <div className="text-sm">{comment.text}</div>
                         </div>
                       </div>
@@ -224,7 +228,7 @@ const Post = ({ post }) => {
                     onSubmit={handlePostComment}
                   >
                     <textarea
-                      className="textarea w-full p-1 rounded text-md resize-none border focus:outline-none  border-gray-800"
+                      className="textarea w-full p-3 rounded text-md resize-none border focus:outline-none  border-gray-800"
                       placeholder="Add a comment..."
                       value={comment}
                       onChange={(e) => setComment(e.target.value)}
