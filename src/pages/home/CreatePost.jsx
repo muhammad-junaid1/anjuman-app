@@ -107,7 +107,7 @@ const CreatePost = () => {
             ref={imgRef}
             onChange={handleImgChange}
           />
-          <button className="btn btn-primary rounded-full btn-sm text-white px-4">
+          <button className="btn btn-primary rounded-full btn-sm w-[20%] h-[40px] text-white px-4">
             {isPending ? "Posting..." : "Post"}
           </button>
         </div>
