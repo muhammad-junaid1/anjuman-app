@@ -1,5 +1,6 @@
 import { Navigate , Routes, Route } from "react-router-dom";
 import HomePage from './pages/home/HomePage';
+import BookmarksPage from './pages/bookmark';
 import SignUpPage from './pages/auth/signup/SignUpPage';
 import LoginPage from './pages/auth/login/LoginPage';
 import NotificationPage from './pages/notification/NotificationPage';
@@ -58,6 +59,10 @@ function App() {
           <Route
             path="/notifications"
             element={authUser ? <NotificationPage /> : <Navigate to="/login" />}
+          />
+          <Route
+            path="/bookmarks"
+            element={authUser ? <BookmarksPage /> : <Navigate to="/login" />}
           />
           <Route
             path="/profile/:username"

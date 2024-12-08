@@ -11,12 +11,13 @@ import { toast } from "react-hot-toast";
 import LoadingSpinner from "./LoadingSpinner";
 import { formatPostDate } from "../../utils/date";
 
-const Post = ({ post }) => {
+const Post = ({ post, feedType = "" }) => {
   const [comment, setComment] = useState("");
   const { data: authUser } = useQuery({ queryKey: ["authUser"] });
   const queryClient = useQueryClient();
   const postOwner = post.user;
   const isLiked = post.likes.includes(authUser._id);
+  const [isbookmarked, setIsbookmarked] = useState(false); 
 
   const isMyPost = authUser._id === post.user._id;
 
@@ -104,6 +105,35 @@ const Post = ({ post }) => {
     },
   });
 
+  const { mutate: bookmarkPost, isPending: isBookmarking } = useMutation({
+    mutationFn: async (post) => {
+      try {
+        const res = await fetch(`/api/bookmarks/create`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ post, user: authUser._id }),
+        });
+        const data = await res.json();
+
+        if (!res.ok) {
+          throw new Error(data.error || "Something went wrong");
+        }
+        return data;
+      } catch (error) {
+        throw new Error(error);
+      }
+    },
+    onSuccess: () => {
+      toast.success("Post bookmarked successfully");
+      setIsbookmarked(true); 
+    },
+    onError: (error) => {
+      toast.error(error.message);
+    },
+  });
+
   const handleDeletePost = () => {
     deletePost();
   };
@@ -156,7 +186,11 @@ const Post = ({ post }) => {
             )}
           </div>
           <div className="flex flex-col gap-3 overflow-hidden">
-           {post.label && <div className="py-1 text-sm px-3 w-max rounded-full mt-2 bg-[#d5006d52] text-primary"><span>{post.label}</span></div>}
+            {post.label && (
+              <div className="py-1 text-sm px-3 w-max rounded-full mt-2 bg-[#d5006d52] text-primary">
+                <span>{post.label}</span>
+              </div>
+            )}
             <span>{post.text}</span>
             {post.image && (
               <img
@@ -197,16 +231,16 @@ const Post = ({ post }) => {
                     {post.comments.map((comment) => (
                       <div key={comment._id} className="flex gap-2 items-start">
                         <div className="avatar">
-                            <div className="w-8 h-8 rounded-full">
-                          <Link to={`/profile/${comment.user.username}`}>
+                          <div className="w-8 h-8 rounded-full">
+                            <Link to={`/profile/${comment.user.username}`}>
                               <img
                                 src={
                                   comment.user.profilePicture ||
                                   "/avatar-placeholder.png"
                                 }
                               />
-                          </Link>
-                            </div>
+                            </Link>
+                          </div>
                         </div>
                         <div className="flex flex-col">
                           <Link to={`/profile/${comment.user.username}`}>
@@ -270,9 +304,15 @@ const Post = ({ post }) => {
                 </span>
               </div>
             </div>
-            <div className="flex w-1/3 justify-end gap-2 items-center">
-              <FaRegBookmark className="w-4 h-4 text-slate-500 cursor-pointer" />
-            </div>
+            {feedType !== "bookmarks" && (
+              <div className="flex w-1/3 justify-end gap-2 items-center">
+                <FaRegBookmark
+                  
+                  onClick={() => bookmarkPost(post._id)}
+                  className={`w-4 h-4 ${isbookmarked ? 'text-primary' : 'text-slate-500'} cursor-pointer`}
+                />
+              </div>
+            )}
           </div>
         </div>
       </div>

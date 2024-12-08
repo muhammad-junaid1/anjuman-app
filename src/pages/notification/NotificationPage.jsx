@@ -7,6 +7,13 @@ import LoadingSpinner from "../../components/common/LoadingSpinner";
 import { IoSettingsOutline } from "react-icons/io5";
 import { FaUser } from "react-icons/fa";
 import { FaHeart } from "react-icons/fa6";
+import { BiBookmark } from "react-icons/bi";
+
+const message = {
+  "like": "liked your post", 
+  "follow": "followed you", 
+  "bookmark": "bookmarked your post" 
+}
 
 const NotificationPage = () => {
   const queryClient = useQueryClient();
@@ -80,6 +87,9 @@ const NotificationPage = () => {
               {notification.type === "follow" && (
                 <FaUser className="w-7 h-7 text-primary" />
               )}
+              {notification.type === "bookmark" && (
+                <BiBookmark className="w-7 h-7 text-primary" />
+              )}
               {notification.type === "like" && (
                 <FaHeart className="w-7 h-7 text-red-500" />
               )}
@@ -98,9 +108,7 @@ const NotificationPage = () => {
                   <span className="font-bold">
                     @{notification.from.username}
                   </span>{" "}
-                  {notification.type === "follow"
-                    ? "followed you"
-                    : "liked your post"}
+                  {message[notification.type]}
                 </div>
               </Link>
             </div>

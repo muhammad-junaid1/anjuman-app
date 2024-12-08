@@ -14,6 +14,8 @@ const Posts = ({ feedType, username, setTotalPosts, userId }) => {
         return `/api/posts/user/${username}`;
       case "likes":
         return `/api/posts/likes/${userId}`;
+      case "bookmarks": 
+        return `/api/bookmarks/${userId}`
       default:
         return "/api/posts/all";
     }
@@ -53,7 +55,7 @@ const Posts = ({ feedType, username, setTotalPosts, userId }) => {
   }, [feedType, refetch, username]);
 
   return (
-    <>
+    <div className="mb-4">
       {(isLoading || isRefetching) && (
         <div className="flex flex-col justify-center">
           <PostSkeleton />
@@ -67,11 +69,11 @@ const Posts = ({ feedType, username, setTotalPosts, userId }) => {
       {!isLoading && !isRefetching && posts && (
         <div>
           {posts.map((post) => (
-            <Post key={post._id} post={post} />
+            <Post feedType={feedType} key={post._id} post={post} />
           ))}
         </div>
       )}
-    </>
+    </div>
   );
 };
 export default Posts;
