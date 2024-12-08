@@ -8,11 +8,13 @@ import { IoSettingsOutline } from "react-icons/io5";
 import { FaUser } from "react-icons/fa";
 import { FaHeart } from "react-icons/fa6";
 import { BiBookmark } from "react-icons/bi";
+import { MdAnnouncement } from "react-icons/md";
 
 const message = {
   "like": "liked your post", 
   "follow": "followed you", 
-  "bookmark": "bookmarked your post" 
+  "bookmark": "bookmarked your post", 
+  "announcement": "announced"
 }
 
 const NotificationPage = () => {
@@ -90,26 +92,31 @@ const NotificationPage = () => {
               {notification.type === "bookmark" && (
                 <BiBookmark className="w-7 h-7 text-primary" />
               )}
+              {notification.type === "announcement" && (
+                <MdAnnouncement className="w-7 h-7 text-primary" />
+              )}
               {notification.type === "like" && (
                 <FaHeart className="w-7 h-7 text-red-500" />
               )}
-              <Link to={`/profile/${notification.from.username}`}>
+              <Link to={`/profile/${notification?.from?.username}`}>
                 <div className="avatar">
                   <div className="w-8 rounded-full">
                     <img
                       src={
-                        notification.from.profilePicture ||
+                        notification?.from?.profilePicture ||
                         "/avatar-placeholder.png"
                       }
                     />
                   </div>
                 </div>
                 <div className="flex gap-1">
+                      {!(notification?.from) ? <span className="font-bold">Admin</span> : 
                   <span className="font-bold">
-                    @{notification.from.username}
-                  </span>{" "}
+                    @{notification?.from?.username}
+                  </span>}{" "}
                   {message[notification.type]}
                 </div>
+                  <p>{notification?.text || ""}</p>
               </Link>
             </div>
           </div>
