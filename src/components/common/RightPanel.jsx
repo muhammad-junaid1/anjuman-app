@@ -24,7 +24,7 @@ const RightPanel = () => {
   );
 
   const {follow , isPending } = useFollow();
-  if (suggestedUsers?.length === 0) return <div className="md:w-64 w-0"></div>;
+  if (suggestedUsers?.filter(user => !user?.isAdmin)?.length === 0) return <div className="md:w-64 w-0"></div>;
 
 
   return (
@@ -42,7 +42,7 @@ const RightPanel = () => {
             </>
           )}
           {!isLoading &&
-            suggestedUsers?.map((user) => (
+            suggestedUsers?.filter(user => !user?.isAdmin)?.map((user) => (
               <Link
                 to={`/profile/${user.username}`}
                 className="flex items-center justify-between gap-4"
