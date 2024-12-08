@@ -15,18 +15,18 @@ const Post = ({ post, feedType = "" }) => {
   const [comment, setComment] = useState("");
   const { data: authUser } = useQuery({ queryKey: ["authUser"] });
   const queryClient = useQueryClient();
-  const postOwner = post.user;
-  const isLiked = post.likes.includes(authUser._id);
+  const postOwner = post?.user;
+  const isLiked = post?.likes?.includes(authUser._id);
   const [isbookmarked, setIsbookmarked] = useState(false); 
 
-  const isMyPost = authUser._id === post.user._id;
+  const isMyPost = authUser._id === post?.user._id;
 
-  const formattedDate = formatPostDate(post.createdAt);
+  const formattedDate = formatPostDate(post?.createdAt);
 
   const { mutate: deletePost, isPending: isDeleting } = useMutation({
     mutationFn: async () => {
       try {
-        const res = await fetch(`/api/posts/${post._id}`, {
+        const res = await fetch(`/api/posts/${post?._id}`, {
           method: "DELETE",
         });
         const data = await res.json();
@@ -48,7 +48,7 @@ const Post = ({ post, feedType = "" }) => {
   const { mutate: likePost, isPending: isLiking } = useMutation({
     mutationFn: async () => {
       try {
-        const res = await fetch(`/api/posts/like/${post._id}`, {
+        const res = await fetch(`/api/posts/like/${post?._id}`, {
           method: "POST",
         });
         const data = await res.json();
@@ -63,7 +63,7 @@ const Post = ({ post, feedType = "" }) => {
     onSuccess: (updatedLikes) => {
       queryClient.setQueryData(["posts"], (oldData) => {
         return oldData.map((p) => {
-          if (p._id === post._id) {
+          if (p._id === post?._id) {
             return { ...p, likes: updatedLikes };
           }
           return p;
@@ -78,7 +78,7 @@ const Post = ({ post, feedType = "" }) => {
   const { mutate: commentPost, isPending: isCommenting } = useMutation({
     mutationFn: async () => {
       try {
-        const res = await fetch(`/api/posts/comment/${post._id}`, {
+        const res = await fetch(`/api/posts/comment/${post?._id}`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -215,15 +215,15 @@ const Post = ({ post, feedType = "" }) => {
             )}
           </div>
           <div className="flex flex-col gap-3 overflow-hidden">
-            {post.label && (
+            {post?.label && (
               <div className="py-1 text-sm px-3 w-max rounded-full mt-2 bg-[#d5006d52] text-primary">
-                <span>{post.label}</span>
+                <span>{post?.label}</span>
               </div>
             )}
-            <span>{post.text}</span>
-            {post.image && (
+            <span>{post?.text}</span>
+            {post?.image && (
               <img
-                src={post.image}
+                src={post?.image}
                 className="h-80 object-contain rounded-lg border border-gray-700"
                 alt=""
               />
@@ -235,29 +235,29 @@ const Post = ({ post, feedType = "" }) => {
                 className="flex gap-1 items-center cursor-pointer group"
                 onClick={() =>
                   document
-                    .getElementById("comments_modal" + post._id)
+                    .getElementById("comments_modal" + post?._id)
                     .showModal()
                 }
               >
                 <FaRegComment className="w-4 h-4  text-slate-500 group-hover:text-sky-400" />
                 <span className="text-sm text-slate-500 group-hover:text-sky-400">
-                  {post.comments.length}
+                  {post?.comments.length}
                 </span>
               </div>
               {/* We're using Modal Component from DaisyUI */}
               <dialog
-                id={`comments_modal${post._id}`}
+                id={`comments_modal${post?._id}`}
                 className="modal border-none outline-none"
               >
                 <div className="modal-box rounded border border-gray-600">
                   <h3 className="font-bold text-lg mb-4">COMMENTS</h3>
                   <div className="flex flex-col gap-3 max-h-60 overflow-auto">
-                    {post.comments.length === 0 && (
+                    {post?.comments.length === 0 && (
                       <p className="text-sm text-slate-500">
                         No comments yet 🤔 Be the first one 😉
                       </p>
                     )}
-                    {post.comments.map((comment) => (
+                    {post?.comments.map((comment) => (
                       <div key={comment._id} className="flex gap-2 items-start">
                         <div className="avatar">
                           <div className="w-8 h-8 rounded-full">
@@ -324,12 +324,12 @@ const Post = ({ post, feedType = "" }) => {
                     isLiked ? "text-pink-500" : "text-slate-500"
                   }`}
                 >
-                  {post.likes.length}
+                  {post?.likes.length}
                 </span>
               </div>
 
                 <div className="flex gap-1 items-center group cursor-pointer">
-                <MdOutlineReportGmailerrorred onClick={() => reportPost(post._id)} className="w-6 h-6  text-slate-500 group-hover:text-red-500" />
+                <MdOutlineReportGmailerrorred onClick={() => reportPost(post?._id)} className="w-6 h-6  text-slate-500 group-hover:text-red-500" />
               </div>
 
               
@@ -338,7 +338,7 @@ const Post = ({ post, feedType = "" }) => {
               <div className="flex w-1/3 justify-end gap-2 items-center">
                 <FaRegBookmark
                   
-                  onClick={() => bookmarkPost(post._id)}
+                  onClick={() => bookmarkPost(post?._id)}
                   className={`w-4 h-4 ${isbookmarked ? 'text-primary' : 'text-slate-500'} cursor-pointer`}
                 />
               </div>

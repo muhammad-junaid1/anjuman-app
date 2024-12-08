@@ -14,6 +14,7 @@ import { useQuery } from '@tanstack/react-query';
 import LoadingSpinner from "./components/common/LoadingSpinner";
 import ForgotPasswordPage from "./pages/forgotpassword";
 import ResetPasswordPage from "./pages/resetPassword";
+import SearchPage from "./pages/search";
 
 
 function App() {
@@ -73,6 +74,10 @@ function App() {
           <Route
             path="/bookmarks"
             element={authUser ? <BookmarksPage /> : <Navigate to="/login" />}
+          />
+          <Route
+            path="/search"
+            element={authUser ? <SearchPage /> : <Navigate to="/login" />}
           />
           <Route
             path="/profile/:username"
