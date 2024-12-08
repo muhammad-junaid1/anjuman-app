@@ -1,5 +1,4 @@
 import { FaRegComment } from "react-icons/fa";
-import { BiRepost, BiSolidReport } from "react-icons/bi";
 import { FaRegHeart } from "react-icons/fa";
 import { FaRegBookmark } from "react-icons/fa6";
 import { FaTrash } from "react-icons/fa";
@@ -10,8 +9,7 @@ import { toast } from "react-hot-toast";
 
 import LoadingSpinner from "./LoadingSpinner";
 import { formatPostDate } from "../../utils/date";
-import { MdOutlineReportGmailerrorred, MdReport } from "react-icons/md";
-import { TbReport } from "react-icons/tb";
+import { MdOutlineReportGmailerrorred } from "react-icons/md";
 
 const Post = ({ post, feedType = "" }) => {
   const [comment, setComment] = useState("");

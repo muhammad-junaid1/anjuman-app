@@ -12,6 +12,8 @@ import RightPanel from './components/common/RightPanel';
 import { Toaster } from 'react-hot-toast';
 import { useQuery } from '@tanstack/react-query';
 import LoadingSpinner from "./components/common/LoadingSpinner";
+import ForgotPasswordPage from "./pages/forgotpassword";
+import ResetPasswordPage from "./pages/resetPassword";
 
 
 function App() {
@@ -51,6 +53,14 @@ function App() {
           <Route
             path="/login"
             element={!authUser ? <LoginPage /> : <Navigate to="/" />}
+          />
+          <Route
+            path="/forgot-password"
+            element={!authUser ? <ForgotPasswordPage /> : <Navigate to="/" />}
+          />
+          <Route
+            path="/reset-password"
+            element={!authUser ? <ResetPasswordPage /> : <Navigate to="/" />}
           />
           <Route
             path="/signup"

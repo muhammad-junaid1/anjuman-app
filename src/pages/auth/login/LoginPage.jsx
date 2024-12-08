@@ -80,6 +80,7 @@ const LoginPage = () => {
               value={formData.password} // form data is stored in state
             />
           </label>
+          <Link to={'/forgot-password'} className="italic">Forgot password?</Link>
           <button className="btn rounded-full btn-primary text-white">
             {isPending ? "Loading..." : "Login"}
           </button>
