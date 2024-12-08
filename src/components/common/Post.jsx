@@ -1,5 +1,5 @@
 import { FaRegComment } from "react-icons/fa";
-import { BiRepost } from "react-icons/bi";
+import { BiRepost, BiSolidReport } from "react-icons/bi";
 import { FaRegHeart } from "react-icons/fa";
 import { FaRegBookmark } from "react-icons/fa6";
 import { FaTrash } from "react-icons/fa";
@@ -10,6 +10,8 @@ import { toast } from "react-hot-toast";
 
 import LoadingSpinner from "./LoadingSpinner";
 import { formatPostDate } from "../../utils/date";
+import { MdOutlineReportGmailerrorred, MdReport } from "react-icons/md";
+import { TbReport } from "react-icons/tb";
 
 const Post = ({ post, feedType = "" }) => {
   const [comment, setComment] = useState("");
@@ -128,6 +130,35 @@ const Post = ({ post, feedType = "" }) => {
     onSuccess: () => {
       toast.success("Post bookmarked successfully");
       setIsbookmarked(true); 
+    },
+    onError: (error) => {
+      toast.error(error.message);
+    },
+  });
+
+
+  const { mutate: reportPost, isPending: isReporting } = useMutation({
+    mutationFn: async (post) => {
+      try {
+        const res = await fetch(`/api/users/report`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ post, user: authUser._id }),
+        });
+        const data = await res.json();
+
+        if (!res.ok) {
+          throw new Error(data.error || "Something went wrong");
+        }
+        return data;
+      } catch (error) {
+        throw new Error(error);
+      }
+    },
+    onSuccess: () => {
+      toast.success("Thank you for reporting this post!");
     },
     onError: (error) => {
       toast.error(error.message);
@@ -277,12 +308,7 @@ const Post = ({ post, feedType = "" }) => {
                   <button className="outline-none">close</button>
                 </form>
               </dialog>
-              <div className="flex gap-1 items-center group cursor-pointer">
-                <BiRepost className="w-6 h-6  text-slate-500 group-hover:text-green-500" />
-                <span className="text-sm text-slate-500 group-hover:text-green-500">
-                  0
-                </span>
-              </div>
+            
               <div
                 className="flex gap-1 items-center group cursor-pointer"
                 onClick={handleLikePost}
@@ -303,6 +329,12 @@ const Post = ({ post, feedType = "" }) => {
                   {post.likes.length}
                 </span>
               </div>
+
+                <div className="flex gap-1 items-center group cursor-pointer">
+                <MdOutlineReportGmailerrorred onClick={() => reportPost(post._id)} className="w-6 h-6  text-slate-500 group-hover:text-red-500" />
+              </div>
+
+              
             </div>
             {feedType !== "bookmarks" && (
               <div className="flex w-1/3 justify-end gap-2 items-center">
@@ -313,6 +345,8 @@ const Post = ({ post, feedType = "" }) => {
                 />
               </div>
             )}
+
+            
           </div>
         </div>
       </div>
