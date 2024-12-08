@@ -156,6 +156,7 @@ const Post = ({ post }) => {
             )}
           </div>
           <div className="flex flex-col gap-3 overflow-hidden">
+           {post.label && <div className="py-1 text-sm px-3 w-max rounded-full mt-2 bg-[#d5006d52] text-primary"><span>{post.label}</span></div>}
             <span>{post.text}</span>
             {post.image && (
               <img

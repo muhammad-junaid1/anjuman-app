@@ -7,6 +7,7 @@ import { toast } from "react-hot-toast";
 
 const CreatePost = () => {
   const [text, setText] = useState("");
+  const [label, setLabel] = useState("");
   const [image, setImg] = useState(null);
   const imgRef = useRef(null);
 
@@ -26,7 +27,7 @@ const CreatePost = () => {
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({ text, image }),
+          body: JSON.stringify({ text, image, label }),
         });
         const data = await res.json();
         if (!res.ok) {
@@ -41,6 +42,7 @@ const CreatePost = () => {
     onSuccess: () => {
       setText("");
       setImg(null);
+      setLabel(""); 
       toast.success("Post created successfully");
       queryClient.invalidateQueries({ queryKey: ["posts"] });
     },
@@ -70,9 +72,10 @@ const CreatePost = () => {
         </div>
       </div>
       <form className="flex flex-col gap-2 w-full" onSubmit={handleSubmit}>
+        <input required onChange={(e) => setLabel(e.target.value)} className="w-max text-white border-0 outline-none focus:outline-none focus:border-0 rounded bg-transparent"  type="text" placeholder="Label.."/>
         <textarea
           className="textarea w-full p-0 text-lg resize-none border-none focus:outline-none  border-gray-800"
-          placeholder="What is happening?!"
+          placeholder="Write down here.."
           value={text}
           onChange={(e) => setText(e.target.value)}
         />
