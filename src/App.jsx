@@ -43,6 +43,7 @@ function App() {
         </div>
       );
   }
+  console.log(authUser)
   return (
       <div className="flex max-w-6xl mx-auto">
         {authUser && <Sidebar />}
@@ -84,7 +85,7 @@ function App() {
             element={authUser ? <ProfilePage /> : <Navigate to="/login" />}
           />
         </Routes>
-        {authUser && <RightPanel />}
+        {authUser?._id && <RightPanel />}
         <Toaster />
       </div>
     );

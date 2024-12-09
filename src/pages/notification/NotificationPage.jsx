@@ -8,7 +8,7 @@ import { IoSettingsOutline } from "react-icons/io5";
 import { FaUser } from "react-icons/fa";
 import { FaHeart } from "react-icons/fa6";
 import { BiBookmark } from "react-icons/bi";
-import { MdAnnouncement } from "react-icons/md";
+import { MdAnnouncement, MdLabelImportant } from "react-icons/md";
 
 const message = {
   "like": "liked your post", 
@@ -93,12 +93,12 @@ const NotificationPage = () => {
                 <BiBookmark className="w-7 h-7 text-primary" />
               )}
               {notification.type === "announcement" && (
-                <MdAnnouncement className="w-7 h-7 text-primary" />
+                <MdLabelImportant className="w-7 h-7 text-primary" />
               )}
               {notification.type === "like" && (
                 <FaHeart className="w-7 h-7 text-red-500" />
               )}
-              <Link to={`/profile/${notification?.from?.username}`}>
+              <Link to={notification?.from && `/profile/${notification?.from?.username}`}>
                 <div className="avatar">
                   <div className="w-8 rounded-full">
                     <img
