@@ -5,6 +5,7 @@ import Posts from "../../components/common/Posts";
 import { BiSearch } from "react-icons/bi";
 import Post from "../../components/common/Post";
 import UserCard from "../../components/common/UserCard";
+import EventCard from "./EventCard.jsx";
 
 const SearchPage = () => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -99,6 +100,12 @@ const SearchPage = () => {
           >
             Labels
           </button>
+          <button
+            onClick={() => setFilter("events")}
+            className={`filter-btn ${filter === "events" ? "active" : ""}`}
+          >
+            Events
+          </button>
         </div>
       </div>
 
@@ -142,6 +149,18 @@ const SearchPage = () => {
                    <p className="pl-5">No labels found {debouncedSearchTerm && "for " + "\"" + debouncedSearchTerm + "\""}</p>
                 ) : (
                    searchResults.map((post) => <Post key={post._id} post={post} />)
+
+                )}
+              </div>
+            )}
+            {filter === "events" && (
+              <div className="events">
+                {searchResults?.length === 0 ? (
+                   <p className="pl-5">No events found {debouncedSearchTerm && "for " + "\"" + debouncedSearchTerm + "\""}</p>
+                ) : (
+                   searchResults.map((event) => <div key={event._id} className="mb-2">
+                     <EventCard key={event._id} event={event} />
+                   </div>)
 
                 )}
               </div>

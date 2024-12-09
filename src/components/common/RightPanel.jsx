@@ -159,17 +159,20 @@ const RightPanel = () => {
                   <p className="text-xs">
                     {new Date(event.eventDate).toLocaleDateString()}
                   </p>
-                  {event.attendees?.map(a => a?._id)?.includes(authUser?._id) ?  <button
-                    onClick={() => {}}
-                    className="mt-3 border rounded-full px-3 bg-primary"
-                  >
-                    Booked
-                  </button>: 
+                  {event.attendees?.map(a => a?._id)?.includes(authUser?._id) ?  <div className="mt-3 flex items-center space-x-2">
+                    <button
+                      onClick={() => {}}
+                      className="border rounded-full px-3 bg-primary"
+                    >
+                      Booked
+                    </button>
+                    <p className="m-0">{event.attendees?.length} attendees</p>
+                  </div>: 
                   <button
                     onClick={() => handleAttendEvent(event?._id)}
                     className="mt-3 border rounded-full px-3 border-primary"
                   >
-                    Attend
+                    Attend {event?.attendees?.length !== 0 && "with " + event?.attendees?.length + " others"}
                   </button>
                   }
                 </div>
