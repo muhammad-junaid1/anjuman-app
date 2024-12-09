@@ -78,14 +78,13 @@ const RightPanel = () => {
   // if (suggestedUsers?.filter((user) => !user?.isAdmin)?.length === 0)
   //   return <div className="md:w-64 w-0"></div>;
 
-  console.log(authUser?._id)
   return (
-    <div className="hidden md:w-64 w-0 lg:block my-4 mx-2">
+    <div className="hidden md:w-72 w-0 lg:block my-4 mx-2">
       {suggestedUsers?.filter((user) => !user?.isAdmin)?.length === 0 ? (
         <></>
       ) : (
         <div className="bg-[#16181C] p-4 rounded-md sticky top-2">
-          <p className="font-bold mb-3">Who to follow</p>
+          <p className="font-bold mb-3 uppercase underline">Who to follow</p>
           <div className="flex flex-col gap-4">
             {/* item */}
             {(isLoading || eventsLoading) && (
@@ -142,7 +141,7 @@ const RightPanel = () => {
       )}
 
       <div className="bg-[#16181C] p-4 rounded-md sticky top-2">
-        <p className="font-bold mb-3">Ongoing events</p>
+        <p className="font-bold mb-3 uppercase underline">Ongoing events</p>
         <div className="flex flex-col gap-4">
           {/* item */}
           {(isLoading || eventsLoading) && (
